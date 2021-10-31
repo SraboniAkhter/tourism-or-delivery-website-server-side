@@ -39,6 +39,22 @@ async function run() {
             const services = await cursor.toArray();
             res.send(services);
         });
+
+        // update api
+        app.put('./bookings/:id', async (req, res) => {
+            const id = req.params.id;
+            const updateStatus = req.body
+            const query = { _id: ObjectId(id) };
+            const options = {upsert: true };
+            const updateDoc = {
+                $set: {
+                    status: updateStatus.status
+            }
+        }
+            const result = await bookingsCollection.updateOne(query, options,updateDoc);
+            res.send(result); 
+            
+        })
         
 
         // GET API
